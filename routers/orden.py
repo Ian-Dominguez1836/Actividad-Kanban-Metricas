@@ -17,7 +17,8 @@ router = APIRouter()
 @router.get("/fecha", summary="R7.1 Tareas ordenadas por fecha de creación")
 def ordenar_por_fecha(db: Session = Depends(get_db)):
     # Usar .order_by(Tarea.creado_en.asc())
-    pass
+    tareas = db.query(Tarea).order_by(Tarea.creado_en.asc()).all()
+    return tareas
 
 
 @router.get("/titulo", summary="R7.2 Tareas ordenadas alfabéticamente por título")
