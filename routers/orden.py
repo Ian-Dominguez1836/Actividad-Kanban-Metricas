@@ -23,7 +23,8 @@ def ordenar_por_fecha(db: Session = Depends(get_db)):
 @router.get("/titulo", summary="R7.2 Tareas ordenadas alfabéticamente por título")
 def ordenar_por_titulo(db: Session = Depends(get_db)):
     # Usar .order_by(Tarea.titulo.asc())
-    pass
+    tareas = db.query(Tarea).order_by(Tarea.titulo.asc()).all()
+    return tareas
 
 
 @router.get("/prioridad", summary="R7.3 Tareas ordenadas por prioridad")
