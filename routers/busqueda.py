@@ -26,7 +26,7 @@ def buscar_por_titulo(palabra: str, db: Session = Depends(get_db)):
 @router.get("/estado/{estado}", summary="R4.2 Filtrar tareas por estado")
 def filtrar_por_estado(estado: str, db: Session = Depends(get_db)):
     # Estados válidos: "pendiente", "completada", "archivada"
-     estados_validos = ["pendiente", "completada", "archivada"]
+    estados_validos = ["pendiente", "completada", "archivada"]
     if estado not in estados_validos:
         raise HTTPException(status_code=400, detail=f"Estado inválido. Valores permitidos: {estados_validos}")
     # Buscar todas las tareas que coincidan con el estado indicado
