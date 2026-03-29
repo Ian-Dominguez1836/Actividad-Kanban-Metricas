@@ -1,4 +1,4 @@
-# TodoUACJ — Sistema de Gestión de Tareas
+# To Do — Sistema de Gestión de Tareas
 **UACJ · Métricas del Software · 2025**
 
 ## Estructura del proyecto

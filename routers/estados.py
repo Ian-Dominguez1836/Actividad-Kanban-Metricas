@@ -18,22 +18,48 @@ router = APIRouter()
 
 @router.patch("/{id}/completar", summary="R3.1 Marcar tarea como completada")
 def marcar_completada(id: int, db: Session = Depends(get_db)):
-    # Debe guardar datetime.utcnow() en completado_en
-    pass
+    tarea = db.query(Tarea).filter(Tarea.id == id).first()
+    if not tarea:
+        raise HTTPException(status_code=404, detail="Tarea no encontrada")
+    tarea.estado = "completada"
+    tarea.completado_en = datetime.utcnow()
+    db.commit()
+    db.refresh(tarea)
+    return tarea
 
 
 @router.patch("/{id}/pendiente", summary="R3.2 Revertir tarea a pendiente")
 def marcar_pendiente(id: int, db: Session = Depends(get_db)):
-    # Debe limpiar completado_en (dejarlo en None)
-    pass
+    tarea = db.query(Tarea).filter(Tarea.id == id).first()
+    if not tarea:
+        raise HTTPException(status_code=404, detail="Tarea no encontrada")
+    tarea.estado = "pendiente"
+    tarea.completado_en = None
+    db.commit()
+    db.refresh(tarea)
+    return tarea
 
 
 @router.patch("/{id}/archivar", summary="R3.3 Archivar una tarea")
 def archivar_tarea(id: int, db: Session = Depends(get_db)):
-    pass
+    tarea = db.query(Tarea).filter(Tarea.id == id).first()
+    if not tarea:
+        raise HTTPException(status_code=404, detail="Tarea no encontrada")
+    tarea.estado = "archivada"
+    tarea.completado_en = None
+    db.commit()
+    db.refresh(tarea)
+    return tarea
 
 
 @router.patch("/{id}/restaurar", summary="R3.4 Restaurar tarea archivada a pendiente")
 def restaurar_tarea(id: int, db: Session = Depends(get_db)):
-    # Solo debe funcionar si la tarea está en estado "archivada"
-    pass
+    tarea = db.query(Tarea).filter(Tarea.id == id).first()
+    if not tarea:
+        raise HTTPException(status_code=404, detail="Tarea no encontrada")
+    if tarea.estado != "archivada":
+        raise HTTPException(status_code=400, detail="La tarea no está archivada")
+    tarea.estado = "pendiente"
+    db.commit()
+    db.refresh(tarea)
+    return tarea

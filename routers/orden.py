@@ -17,16 +17,33 @@ router = APIRouter()
 @router.get("/fecha", summary="R7.1 Tareas ordenadas por fecha de creación")
 def ordenar_por_fecha(db: Session = Depends(get_db)):
     # Usar .order_by(Tarea.creado_en.asc())
-    pass
+    tareas = db.query(Tarea).order_by(Tarea.creado_en.asc()).all()
+    return tareas
 
 
 @router.get("/titulo", summary="R7.2 Tareas ordenadas alfabéticamente por título")
 def ordenar_por_titulo(db: Session = Depends(get_db)):
     # Usar .order_by(Tarea.titulo.asc())
-    pass
+    tareas = db.query(Tarea).order_by(Tarea.titulo.asc()).all()
+    return tareas
 
 
 @router.get("/prioridad", summary="R7.3 Tareas ordenadas por prioridad")
 def ordenar_por_prioridad(db: Session = Depends(get_db)):
     # Orden manual: alta=0, media=1, baja=2, None=3
-    pass
+
+    # Erick Rangel 234591
+    # Crear un dic para asignar un valor num a cada prioridad
+    prioridad_orden = {
+        "alta": 0,
+        "media": 1,
+        "baja": 2,
+        None: 3
+    }
+    
+    # Obtener las tareas sin ordenarlas
+    tarea = db.query(Tarea).all()
+
+    # Ordenar las tareas usando el dic prioridad_orden
+    tarea.sort(key=lambda x: prioridad_orden.get(x.prioridad, 3))
+    return tarea
