@@ -2,7 +2,7 @@ from fastapi import APIRouter, Depends, HTTPException, Body
 from sqlalchemy.orm import Session
 from database import get_db, Tarea
 
-router = APIRouter(prefix="/tareas", tags=["Edición"])
+router = APIRouter()
 
 # --- Endpoints de Edición ---
 

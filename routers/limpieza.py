@@ -58,7 +58,7 @@ def limpiar_completadas(db: Session = Depends(get_db)):
 # ─────────────────────────────────────────────────────────────────────────────
 
 @router.get(
-    "/archivadas",
+    "/limpieza/archivadas",
     summary="R9.3 Listar todas las tareas archivadas",
     description=(
         "Devuelve todas las tareas cuyo estado sea **archivada**, "
